@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.apple.alfred.workflow.latexmath</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>2D31F9B9-3944-47B6-90FB-C3D644CE048E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>3AEB3F40-5C4B-4696-AAF7-979992CD7057</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2D31F9B9-3944-47B6-90FB-C3D644CE048E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>56F5FDE0-0111-4E06-99F2-2B188C3B704B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>AAE101DE-97A5-4382-995F-5004A0320AB4</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>7069716E-DD3F-4524-AAC5-E40A44FC53BA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>56F5FDE0-0111-4E06-99F2-2B188C3B704B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>AAE101DE-97A5-4382-995F-5004A0320AB4</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>DC78C5EC-2ED0-4625-BED5-BD1749F0BCBB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>079CD267-6D4C-4FE0-8F03-D2C6B1851A63</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string></string>
+	<key>description</key>
+	<string>Generate PNG from LaTex markup</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>LaTexMath to PNG</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>tex</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>on run argv
+	-- enter new latex signs here	set theShortcuts to {"*|\\cdot", "--|\\over","√|\\sqrt","∑|\\sum","alpha|\\alpha","beta|\\beta"}
+	set theQuery to item 1 of argv		set theJsonPath to POSIX file ((do shell script "pwd") &amp; "/json.scpt")	set json to load script theJsonPath as alias
+
+	set thePreviewURL to "https://latex.codecogs.com/png.latex?" &amp; urlEncode(theQuery)
+	set theCurl to "curl -go /tmp/tex.png " &amp; thePreviewURL
+	do shell script(theCurl)		set theItems to {}
+
+	set theItem to json's createDictWith({{"title", "Proceed"}})		theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")		theItem's setkv("arg", " " &amp; theQuery)		theItem's setkv("quicklookurl", "/tmp/tex.png")
+			set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "edit.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem		repeat with i in theShortcuts				set {theKey, theValue} to StringSplit(i, "|")				set theItem to json's createDictWith({{"title", theKey}})		theItem's setkv("subtitle", theValue)		theItem's setkv("arg", theQuery &amp; " " &amp; theValue &amp; " ")		--		theItem's setkv("quicklookurl", "")				set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "math.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem			end repeat		-- Create root items object and encode to JSON	set itemDict to json's createDict()	itemDict's setkv("items", theItems)		return json's encode(itemDict)	return theQueryend run(* ================================================================
+FUNTION: Splits a String with a given delimiter
+RETURNS: List of String  (List)
+==================================================================*)on StringSplit(theString, theDelimiter)	-- save delimiters to restore old settings	set oldDelimiters to AppleScript's text item delimiters	-- set delimiters to delimiter to be used	set AppleScript's text item delimiters to theDelimiter	-- create the array	set theArray to every text item of theString	-- restore the old setting	set AppleScript's text item delimiters to oldDelimiters	-- return the result	return theArrayend StringSplit
+
+(* ===============================
+Encode URL
+RETURNS: Encoded URL or error string
+==================================*)
+on urlEncode(str)
+    local str
+    try
+        return (do shell script "/bin/echo " &amp; quoted form of str &amp; " | perl -MURI::Escape -lne 'print uri_escape($_)'")
+    on error eMsg number eNum
+        error "Can't urlEncode: " &amp; eMsg number eNum
+    end try
+end urlEncode</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Formulate a LaTex math equation</string>
+				<key>title</key>
+				<string>LaTex PNG</string>
+				<key>type</key>
+				<integer>6</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>2D31F9B9-3944-47B6-90FB-C3D644CE048E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>triggerid</key>
+				<string>.tex</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>3AEB3F40-5C4B-4696-AAF7-979992CD7057</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>on run argv
+  set theQuery to item 1 of argv
+
+	if character 1 of theQuery is equal to " " then
+		tell application "Alfred 3" to run trigger ".gotex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery
+		
+	else
+		tell application "Alfred 3" to run trigger ".tex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery
+	end if 
+end run</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Image was downloaded to your Downloads folder</string>
+				<key>title</key>
+				<string>LatexEquation</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>DC78C5EC-2ED0-4625-BED5-BD1749F0BCBB</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>triggerid</key>
+				<string>.gotex</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>7069716E-DD3F-4524-AAC5-E40A44FC53BA</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>query=$1
+
+result=$(curl -go ~/Downloads/LatexEquation.png https://latex.codecogs.com/png.latex?$query)
+
+echo $result</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>AAE101DE-97A5-4382-995F-5004A0320AB4</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>on run argv
+  set theQuery to item 1 of argv
+  set theQuery to urlEncode(theQuery)
+  return theQuery
+end run
+
+(* ===============================
+Encode URL
+RETURNS: Encoded URL or error string
+==================================*)
+on urlEncode(str)
+    local str
+    try
+        return (do shell script "/bin/echo " &amp; quoted form of str &amp; " | perl -MURI::Escape -lne 'print uri_escape($_)'")
+    on error eMsg number eNum
+        error "Can't urlEncode: " &amp; eMsg number eNum
+    end try
+end urlEncode</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>56F5FDE0-0111-4E06-99F2-2B188C3B704B</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>openwith</key>
+				<string></string>
+				<key>sourcefile</key>
+				<string>~/Downloads/LatexEquation.png</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openfile</string>
+			<key>uid</key>
+			<string>079CD267-6D4C-4FE0-8F03-D2C6B1851A63</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Uses: https://latex.codecogs.com</string>
+	<key>uidata</key>
+	<dict>
+		<key>079CD267-6D4C-4FE0-8F03-D2C6B1851A63</key>
+		<dict>
+			<key>xpos</key>
+			<integer>980</integer>
+			<key>ypos</key>
+			<integer>370</integer>
+		</dict>
+		<key>2D31F9B9-3944-47B6-90FB-C3D644CE048E</key>
+		<dict>
+			<key>xpos</key>
+			<integer>240</integer>
+			<key>ypos</key>
+			<integer>60</integer>
+		</dict>
+		<key>3AEB3F40-5C4B-4696-AAF7-979992CD7057</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>60</integer>
+		</dict>
+		<key>56F5FDE0-0111-4E06-99F2-2B188C3B704B</key>
+		<dict>
+			<key>xpos</key>
+			<integer>610</integer>
+			<key>ypos</key>
+			<integer>220</integer>
+		</dict>
+		<key>7069716E-DD3F-4524-AAC5-E40A44FC53BA</key>
+		<dict>
+			<key>xpos</key>
+			<integer>450</integer>
+			<key>ypos</key>
+			<integer>220</integer>
+		</dict>
+		<key>AAE101DE-97A5-4382-995F-5004A0320AB4</key>
+		<dict>
+			<key>xpos</key>
+			<integer>770</integer>
+			<key>ypos</key>
+			<integer>220</integer>
+		</dict>
+		<key>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</key>
+		<dict>
+			<key>xpos</key>
+			<integer>450</integer>
+			<key>ypos</key>
+			<integer>60</integer>
+		</dict>
+		<key>DC78C5EC-2ED0-4625-BED5-BD1749F0BCBB</key>
+		<dict>
+			<key>xpos</key>
+			<integer>980</integer>
+			<key>ypos</key>
+			<integer>220</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>0.9</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
