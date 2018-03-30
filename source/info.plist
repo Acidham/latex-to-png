@@ -34,11 +34,11 @@
 				<false/>
 			</dict>
 		</array>
-		<key>56F5FDE0-0111-4E06-99F2-2B188C3B704B</key>
+		<key>B70962B1-1530-4F28-8B4F-D7DA7C01A6F4</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>AAE101DE-97A5-4382-995F-5004A0320AB4</string>
+				<string>BB88A97F-0BE9-49EF-B597-CFB4835AAE8D</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -47,42 +47,8 @@
 				<false/>
 			</dict>
 		</array>
-		<key>7069716E-DD3F-4524-AAC5-E40A44FC53BA</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>56F5FDE0-0111-4E06-99F2-2B188C3B704B</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-		<key>AAE101DE-97A5-4382-995F-5004A0320AB4</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>DC78C5EC-2ED0-4625-BED5-BD1749F0BCBB</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>079CD267-6D4C-4FE0-8F03-D2C6B1851A63</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
+		<key>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</key>
+		<array/>
 	</dict>
 	<key>createdby</key>
 	<string>Acidham</string>
@@ -118,7 +84,7 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string></string>
+				<string>Processing...</string>
 				<key>script</key>
 				<string>on run argv
 	-- enter new latex signs here	set theShortcuts to {"*|\\cdot", "--|\\over","√|\\sqrt","∑|\\sum","alpha|\\alpha","beta|\\beta"}
@@ -128,7 +94,7 @@
 	set theCurl to "curl -go /tmp/tex.png " &amp; thePreviewURL
 	do shell script(theCurl)		set theItems to {}
 
-	set theItem to json's createDictWith({{"title", "Proceed"}})		theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")		theItem's setkv("arg", " " &amp; theQuery)		theItem's setkv("quicklookurl", "/tmp/tex.png")
+	set theItem to json's createDictWith({{"title", "Proceed"}})		theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")		theItem's setkv("arg", "getPNG")		theItem's setkv("quicklookurl", "/tmp/tex.png")
 			set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "edit.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem		repeat with i in theShortcuts				set {theKey, theValue} to StringSplit(i, "|")				set theItem to json's createDictWith({{"title", theKey}})		theItem's setkv("subtitle", theValue)		theItem's setkv("arg", theQuery &amp; " " &amp; theValue &amp; " ")		--		theItem's setkv("quicklookurl", "")				set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "math.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem			end repeat		-- Create root items object and encode to JSON	set itemDict to json's createDict()	itemDict's setkv("items", theItems)		return json's encode(itemDict)	return theQueryend run(* ================================================================
 FUNTION: Splits a String with a given delimiter
 RETURNS: List of String  (List)
@@ -153,7 +119,7 @@ end urlEncode</string>
 				<key>subtext</key>
 				<string>Formulate a LaTex math equation</string>
 				<key>title</key>
-				<string>LaTex PNG</string>
+				<string>Generates a PNG from LaTexMath equation</string>
 				<key>type</key>
 				<integer>6</integer>
 				<key>withspace</key>
@@ -182,21 +148,49 @@ end urlEncode</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>triggerid</key>
+				<string>.texnotify</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>B70962B1-1530-4F28-8B4F-D7DA7C01A6F4</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>PNG was added to your Downloads folder</string>
+				<key>title</key>
+				<string>LaTeX Math</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>BB88A97F-0BE9-49EF-B597-CFB4835AAE8D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>script</key>
-				<string>on run argv
-  set theQuery to item 1 of argv
-
-	if character 1 of theQuery is equal to " " then
-		tell application "Alfred 3" to run trigger ".gotex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery
-		
-	else
-		tell application "Alfred 3" to run trigger ".tex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery
-	end if 
-end run</string>
+				<string>on run argv	set theQuery to item 1 of argv	if theQuery is equal to "getPNG" then		do shell script ("yes | cp /tmp/tex.png ~/Downloads/LatexEquation.png")		do shell script ("open ~/Downloads/LatexEquation.png")
+		tell application "Alfred 3" to run trigger ".texnotify" in workflow "com.apple.alfred.workflow.latexmath" with argument ""	else		tell application "Alfred 3" to run trigger ".tex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery
+	end if
+		end run</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -211,134 +205,11 @@ end run</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>removeextension</key>
-				<false/>
-				<key>text</key>
-				<string>Image was downloaded to your Downloads folder</string>
-				<key>title</key>
-				<string>LatexEquation</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>DC78C5EC-2ED0-4625-BED5-BD1749F0BCBB</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>triggerid</key>
-				<string>.gotex</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.external</string>
-			<key>uid</key>
-			<string>7069716E-DD3F-4524-AAC5-E40A44FC53BA</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>query=$1
-
-result=$(curl -go ~/Downloads/LatexEquation.png https://latex.codecogs.com/png.latex?$query)
-
-echo $result</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>AAE101DE-97A5-4382-995F-5004A0320AB4</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>68</integer>
-				<key>script</key>
-				<string>on run argv
-  set theQuery to item 1 of argv
-  set theQuery to urlEncode(theQuery)
-  return theQuery
-end run
-
-(* ===============================
-Encode URL
-RETURNS: Encoded URL or error string
-==================================*)
-on urlEncode(str)
-    local str
-    try
-        return (do shell script "/bin/echo " &amp; quoted form of str &amp; " | perl -MURI::Escape -lne 'print uri_escape($_)'")
-    on error eMsg number eNum
-        error "Can't urlEncode: " &amp; eMsg number eNum
-    end try
-end urlEncode</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>6</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>56F5FDE0-0111-4E06-99F2-2B188C3B704B</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>openwith</key>
-				<string></string>
-				<key>sourcefile</key>
-				<string>~/Downloads/LatexEquation.png</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openfile</string>
-			<key>uid</key>
-			<string>079CD267-6D4C-4FE0-8F03-D2C6B1851A63</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
 	</array>
 	<key>readme</key>
 	<string>Uses: https://latex.codecogs.com</string>
 	<key>uidata</key>
 	<dict>
-		<key>079CD267-6D4C-4FE0-8F03-D2C6B1851A63</key>
-		<dict>
-			<key>xpos</key>
-			<integer>980</integer>
-			<key>ypos</key>
-			<integer>370</integer>
-		</dict>
 		<key>2D31F9B9-3944-47B6-90FB-C3D644CE048E</key>
 		<dict>
 			<key>xpos</key>
@@ -353,44 +224,35 @@ end urlEncode</string>
 			<key>ypos</key>
 			<integer>60</integer>
 		</dict>
-		<key>56F5FDE0-0111-4E06-99F2-2B188C3B704B</key>
+		<key>B70962B1-1530-4F28-8B4F-D7DA7C01A6F4</key>
 		<dict>
 			<key>xpos</key>
-			<integer>610</integer>
+			<integer>660</integer>
 			<key>ypos</key>
-			<integer>220</integer>
+			<integer>60</integer>
 		</dict>
-		<key>7069716E-DD3F-4524-AAC5-E40A44FC53BA</key>
+		<key>BB88A97F-0BE9-49EF-B597-CFB4835AAE8D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>450</integer>
+			<integer>820</integer>
 			<key>ypos</key>
-			<integer>220</integer>
-		</dict>
-		<key>AAE101DE-97A5-4382-995F-5004A0320AB4</key>
-		<dict>
-			<key>xpos</key>
-			<integer>770</integer>
-			<key>ypos</key>
-			<integer>220</integer>
+			<integer>60</integer>
 		</dict>
 		<key>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</key>
 		<dict>
+			<key>colorindex</key>
+			<integer>3</integer>
+			<key>note</key>
+			<string>- Call external .tex in case new LaTeX symbol was added
+- Calls external trigger .gotex to save PNG</string>
 			<key>xpos</key>
 			<integer>450</integer>
 			<key>ypos</key>
 			<integer>60</integer>
 		</dict>
-		<key>DC78C5EC-2ED0-4625-BED5-BD1749F0BCBB</key>
-		<dict>
-			<key>xpos</key>
-			<integer>980</integer>
-			<key>ypos</key>
-			<integer>220</integer>
-		</dict>
 	</dict>
 	<key>version</key>
-	<string>0.9</string>
+	<string>1.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/Acidham/latex-to-png</string>
 </dict>
