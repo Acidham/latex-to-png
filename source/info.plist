@@ -63,6 +63,44 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>triggerid</key>
+				<string>.tex</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>3AEB3F40-5C4B-4696-AAF7-979992CD7057</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>on run argv	set theQuery to item 1 of argv		if theQuery is equal to "getPNG" then	
+		do shell script ("yes | cp /tmp/tex.png ~/Downloads/LatexEquation.png")		do shell script ("open ~/Downloads/LatexEquation.png")		tell application "Alfred 3" to run trigger ".texnotify" in workflow "com.apple.alfred.workflow.latexmath" with argument ""	
+	else		tell application "Alfred 3" to run trigger ".tex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery			end if	end run</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
@@ -94,7 +132,7 @@
 	set theCurl to "curl -go /tmp/tex.png " &amp; thePreviewURL
 	do shell script(theCurl)		set theItems to {}
 
-	set theItem to json's createDictWith({{"title", "Proceed"}})		theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")		theItem's setkv("arg", "getPNG")		theItem's setkv("quicklookurl", "/tmp/tex.png")
+	set theItem to json's createDictWith({{"title", "Get/Preview PNG"}})		theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")		theItem's setkv("arg", "getPNG")		theItem's setkv("quicklookurl", "/tmp/tex.png")
 			set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "edit.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem		repeat with i in theShortcuts				set {theKey, theValue} to StringSplit(i, "|")				set theItem to json's createDictWith({{"title", theKey}})		theItem's setkv("subtitle", theValue)		theItem's setkv("arg", theQuery &amp; " " &amp; theValue &amp; " ")		--		theItem's setkv("quicklookurl", "")				set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "math.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem			end repeat		-- Create root items object and encode to JSON	set itemDict to json's createDict()	itemDict's setkv("items", theItems)		return json's encode(itemDict)	return theQueryend run(* ================================================================
 FUNTION: Splits a String with a given delimiter
 RETURNS: List of String  (List)
@@ -136,19 +174,6 @@ end urlEncode</string>
 			<key>config</key>
 			<dict>
 				<key>triggerid</key>
-				<string>.tex</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.external</string>
-			<key>uid</key>
-			<string>3AEB3F40-5C4B-4696-AAF7-979992CD7057</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>triggerid</key>
 				<string>.texnotify</string>
 			</dict>
 			<key>type</key>
@@ -178,32 +203,6 @@ end urlEncode</string>
 			<string>BB88A97F-0BE9-49EF-B597-CFB4835AAE8D</string>
 			<key>version</key>
 			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>68</integer>
-				<key>script</key>
-				<string>on run argv	set theQuery to item 1 of argv	if theQuery is equal to "getPNG" then		do shell script ("yes | cp /tmp/tex.png ~/Downloads/LatexEquation.png")		do shell script ("open ~/Downloads/LatexEquation.png")
-		tell application "Alfred 3" to run trigger ".texnotify" in workflow "com.apple.alfred.workflow.latexmath" with argument ""	else		tell application "Alfred 3" to run trigger ".tex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery
-	end if
-		end run</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>6</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</string>
-			<key>version</key>
-			<integer>2</integer>
 		</dict>
 	</array>
 	<key>readme</key>
