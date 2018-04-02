@@ -1,4 +1,4 @@
-# LaTeX Math equation to png
+# LaTeX Math equation to png for Alfred
 
 The workflow creates a PNG from a Latex Equation using the Web API from https://latex.codecogs.com
 
