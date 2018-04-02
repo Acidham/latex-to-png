@@ -126,7 +126,8 @@
 				<key>script</key>
 				<string>on run argv
 	-- enter new latex signs here	set theShortcuts to {"*|\\cdot", "--|\\over","√|\\sqrt","∑|\\sum","alpha|\\alpha","beta|\\beta"}
-	set theQuery to item 1 of argv		set theJsonPath to POSIX file ((do shell script "pwd") &amp; "/json.scpt")	set json to load script theJsonPath as alias
+	set theQuery to item 1 of argv	
+	-- Load JSON encoder	set theJsonPath to POSIX file ((do shell script "pwd") &amp; "/json.scpt")	set json to load script theJsonPath as alias
 
 	set thePreviewURL to "https://latex.codecogs.com/png.latex?" &amp; urlEncode(theQuery)
 	set theCurl to "curl -go /tmp/tex.png " &amp; thePreviewURL
