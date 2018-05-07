@@ -85,7 +85,7 @@
 	
 		set {theAction,theFormula} to StringSplit(theQuery,"|")	
 		do shell script ("yes | cp /tmp/tex.png ~/Downloads/LatexEquation.png")		do shell script ("open ~/Downloads/LatexEquation.png")		tell application "Alfred 3" to run trigger ".texnotify" in workflow "com.apple.alfred.workflow.latexmath" with argument ""
-		tell application "Finder" to set the Clipboard to theQuery	
+		tell application "Finder" to set the Clipboard to theFormula	
 	else		tell application "Alfred 3" to run trigger ".tex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery			end if	end run
 
 (* ================================================================
