@@ -91,29 +91,10 @@
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>script</key>
-				<string>on run argv	set theQuery to item 1 of argv		if theQuery starts with "getPNG" then
-	
-		set {theAction,theFormula} to StringSplit(theQuery,"|")	
-		do shell script ("yes | cp /tmp/tex.png ~/Downloads/LatexEquation.png")		do shell script ("open ~/Downloads/LatexEquation.png")		tell application "Alfred 3" to run trigger ".texnotify" in workflow "com.apple.alfred.workflow.latexmath" with argument ""
-		tell application "Finder" to set the Clipboard to theFormula	
-	else		tell application "Alfred 3" to run trigger ".tex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery			end if	end run
-
-(* ================================================================
+				<string>on run argv	set theQuery to item 1 of argv		if theQuery starts with "getPNG" then				set {theAction, theFormula} to StringSplit(theQuery, "|")				do shell script ("yes | cp /tmp/tex.png ~/Downloads/LatexEquation.png")		do shell script ("open ~/Downloads/LatexEquation.png")		tell application "Alfred 4" to run trigger ".texnotify" in workflow "com.apple.alfred.workflow.latexmath" with argument ""		tell application "Finder" to set the clipboard to theFormula			else		tell application "Alfred 4" to run trigger ".tex" in workflow "com.apple.alfred.workflow.latexmath" with argument theQuery			end if	end run(* ================================================================
 FUNTION: Splits a String with a given delimiter
 RETURNS: List of String  (List)
-==================================================================*)
-on StringSplit(theString, theDelimiter)
-                -- save delimiters to restore old settings
-                set oldDelimiters to AppleScript's text item delimiters
-                -- set delimiters to delimiter to be used
-                set AppleScript's text item delimiters to theDelimiter
-                -- create the array
-                set theArray to every text item of theString
-                -- restore the old setting
-                set AppleScript's text item delimiters to oldDelimiters
-                -- return the result
-                return theArray
-  end StringSplit</string>
+==================================================================*)on StringSplit(theString, theDelimiter)	-- save delimiters to restore old settings	set oldDelimiters to AppleScript's text item delimiters	-- set delimiters to delimiter to be used	set AppleScript's text item delimiters to theDelimiter	-- create the array	set theArray to every text item of theString	-- restore the old setting	set AppleScript's text item delimiters to oldDelimiters	-- return the result	return theArrayend StringSplit</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -135,6 +116,8 @@ on StringSplit(theString, theDelimiter)
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -199,7 +182,7 @@ end urlEncode</string>
 			<key>uid</key>
 			<string>2D31F9B9-3944-47B6-90FB-C3D644CE048E</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -383,8 +366,10 @@ fi</string>
 			<integer>60</integer>
 		</dict>
 	</dict>
+	<key>variablesdontexport</key>
+	<array/>
 	<key>version</key>
-	<string>1.4</string>
+	<string>1.5</string>
 	<key>webaddress</key>
 	<string>https://github.com/Acidham/latex-to-png</string>
 </dict>
