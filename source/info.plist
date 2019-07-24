@@ -137,33 +137,13 @@ RETURNS: List of String  (List)
 				<key>runningsubtext</key>
 				<string>Processing...</string>
 				<key>script</key>
-				<string>on run argv
-	-- enter new latex signs here	set theShortcuts to {"*|\\cdot", "--|\\over","√|\\sqrt","∑|\\sum","alpha|\\alpha","beta|\\beta"}
-	set theQuery to item 1 of argv	
-	-- Load JSON encoder	set theJsonPath to POSIX file ((do shell script "pwd") &amp; "/json.scpt")	set json to load script theJsonPath as alias
-
-	set thePreviewURL to "https://latex.codecogs.com/png.latex?" &amp; urlEncode(theQuery)
-	set theCurl to "curl -go /tmp/tex.png " &amp; thePreviewURL
-	do shell script(theCurl)		set theItems to {}
-
-	set theItem to json's createDictWith({{"title", "Get/Preview PNG"}})		theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")		theItem's setkv("arg", "getPNG|" &amp; theQuery)		theItem's setkv("quicklookurl", "/tmp/tex.png")
-			set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "edit.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem		repeat with i in theShortcuts				set {theKey, theValue} to StringSplit(i, "|")				set theItem to json's createDictWith({{"title", theKey}})		theItem's setkv("subtitle", theValue)		theItem's setkv("arg", theQuery &amp; " " &amp; theValue &amp; " ")		--		theItem's setkv("quicklookurl", "")				set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "math.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem			end repeat		-- Create root items object and encode to JSON	set itemDict to json's createDict()	itemDict's setkv("items", theItems)		return json's encode(itemDict)	return theQueryend run(* ================================================================
+				<string>on run argv	-- enter new latex signs here	set theShortcuts to {"*|\\cdot", "--|\\over", "√|\\sqrt", "∑|\\sum", "alpha|\\alpha", "beta|\\beta"}		set theQuery to item 1 of argv		-- Load JSON encoder	set theJsonPath to POSIX file ((do shell script "pwd") &amp; "/json.scpt")	set json to load script theJsonPath as alias		set thePreviewURL to "https://latex.codecogs.com/png.latex?%5Cfn_jvn%20" &amp; urlEncode(theQuery)	set theCurl to "curl -go /tmp/tex.png " &amp; thePreviewURL	do shell script (theCurl)		set theItems to {}		set theItem to json's createDictWith({{"title", "Get/Preview PNG"}})	theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")	theItem's setkv("arg", "getPNG|" &amp; theQuery)	theItem's setkv("quicklookurl", "/tmp/tex.png")		set theIcon to json's createDictWith({{"type", "image"}})	theIcon's setkv("path", "edit.png")	theItem's setkv("icon", theIcon)		set end of theItems to theItem		repeat with i in theShortcuts				set {theKey, theValue} to StringSplit(i, "|")				set theItem to json's createDictWith({{"title", theKey}})		theItem's setkv("subtitle", theValue)		theItem's setkv("arg", theQuery &amp; " " &amp; theValue &amp; " ")		--		theItem's setkv("quicklookurl", "")				set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "math.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem			end repeat		-- Create root items object and encode to JSON	set itemDict to json's createDict()	itemDict's setkv("items", theItems)		return json's encode(itemDict)	return theQueryend run(* ================================================================
 FUNTION: Splits a String with a given delimiter
 RETURNS: List of String  (List)
-==================================================================*)on StringSplit(theString, theDelimiter)	-- save delimiters to restore old settings	set oldDelimiters to AppleScript's text item delimiters	-- set delimiters to delimiter to be used	set AppleScript's text item delimiters to theDelimiter	-- create the array	set theArray to every text item of theString	-- restore the old setting	set AppleScript's text item delimiters to oldDelimiters	-- return the result	return theArrayend StringSplit
-
-(* ===============================
+==================================================================*)on StringSplit(theString, theDelimiter)	-- save delimiters to restore old settings	set oldDelimiters to AppleScript's text item delimiters	-- set delimiters to delimiter to be used	set AppleScript's text item delimiters to theDelimiter	-- create the array	set theArray to every text item of theString	-- restore the old setting	set AppleScript's text item delimiters to oldDelimiters	-- return the result	return theArrayend StringSplit(* ===============================
 Encode URL
 RETURNS: Encoded URL or error string
-==================================*)
-on urlEncode(str)
-    local str
-    try
-        return (do shell script "/bin/echo " &amp; quoted form of str &amp; " | perl -MURI::Escape -lne 'print uri_escape($_)'")
-    on error eMsg number eNum
-        error "Can't urlEncode: " &amp; eMsg number eNum
-    end try
-end urlEncode</string>
+==================================*)on urlEncode(str)	local str	try		return (do shell script "/bin/echo " &amp; quoted form of str &amp; " | perl -MURI::Escape -lne 'print uri_escape($_)'")	on error eMsg number eNum		error "Can't urlEncode: " &amp; eMsg number eNum	end tryend urlEncode</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -369,7 +349,7 @@ fi</string>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.5</string>
+	<string>1.6</string>
 	<key>webaddress</key>
 	<string>https://github.com/Acidham/latex-to-png</string>
 </dict>
