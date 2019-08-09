@@ -22,6 +22,16 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
+				<string>A4B94DD4-7786-4BA2-AC7A-9496A111DF97</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>AEB09C58-77CD-4913-9704-34FB5EBC2A99</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -36,6 +46,57 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>2D31F9B9-3944-47B6-90FB-C3D644CE048E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>524C2F19-4633-4F38-AADD-2161D3E60D86</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B56FD831-799A-4446-BBC6-956BBB54AB84</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A4B94DD4-7786-4BA2-AC7A-9496A111DF97</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C9DB0A21-6CDC-498B-87B8-2BE216AEA1B3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>B56FD831-799A-4446-BBC6-956BBB54AB84</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E081DB18-5F75-4657-BAC7-B8CB8DEEF8F0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>D2F06D73-D9A7-4050-8291-8986FD86EE7C</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>76093E45-FE6D-4ABF-AF76-95A6EF4BB9A1</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -59,6 +120,19 @@
 		</array>
 		<key>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</key>
 		<array/>
+		<key>E081DB18-5F75-4657-BAC7-B8CB8DEEF8F0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2D31F9B9-3944-47B6-90FB-C3D644CE048E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>Acidham</string>
@@ -82,6 +156,82 @@
 			<string>3AEB3F40-5C4B-4696-AAF7-979992CD7057</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>PNG was added to your Downloads folder and Formular was added to the Clipboard</string>
+				<key>title</key>
+				<string>LaTeX Math</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>BB88A97F-0BE9-49EF-B597-CFB4835AAE8D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>tex</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Processing...</string>
+				<key>script</key>
+				<string>on run argv	-- enter new latex signs here	set theShortcuts to {"*|\\cdot", "--|\\over", "√|\\sqrt", "∑|\\sum", "alpha|\\alpha", "beta|\\beta"}		set theQuery to item 1 of argv		-- Load JSON encoder	set theJsonPath to POSIX file ((do shell script "pwd") &amp; "/json.scpt")	set json to load script theJsonPath as alias		set thePreviewURL to "https://latex.codecogs.com/png.latex?%5Cfn_jvn%20" &amp; urlEncode(theQuery)	set theCurl to "curl -go /tmp/tex.png " &amp; thePreviewURL	do shell script (theCurl)		set theItems to {}		set theItem to json's createDictWith({{"title", "Get/Preview PNG"}})	theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")	theItem's setkv("arg", "getPNG|" &amp; theQuery)	theItem's setkv("quicklookurl", "/tmp/tex.png")		-- CMD mod for get img url entry	set theCMD to json's createDictWith({{"valid", "true"}})	theCMD's setkv("arg", thePreviewURL)	theCMD's setkv("subtitle", "Get img url")		set theIcon to json's createDictWith({{"type", "image"}})	theIcon's setkv("path", "edit.png")	theItem's setkv("icon", theIcon)		set theMod to json's createDictWith({{"cmd", theCMD}})	theItem's setkv("mods", theMod)		set end of theItems to theItem		repeat with i in theShortcuts				set {theKey, theValue} to StringSplit(i, "|")				set theItem to json's createDictWith({{"title", theKey}})		theItem's setkv("subtitle", theValue)		theItem's setkv("arg", theQuery &amp; " " &amp; theValue &amp; " ")		--		theItem's setkv("quicklookurl", "")				set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "math.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem			end repeat		-- Create root items object and encode to JSON	set itemDict to json's createDict()	itemDict's setkv("items", theItems)		return json's encode(itemDict)	return theQueryend run(* ================================================================
+FUNTION: Splits a String with a given delimiter
+RETURNS: List of String  (List)
+==================================================================*)on StringSplit(theString, theDelimiter)	-- save delimiters to restore old settings	set oldDelimiters to AppleScript's text item delimiters	-- set delimiters to delimiter to be used	set AppleScript's text item delimiters to theDelimiter	-- create the array	set theArray to every text item of theString	-- restore the old setting	set AppleScript's text item delimiters to oldDelimiters	-- return the result	return theArrayend StringSplit(* ===============================
+Encode URL
+RETURNS: Encoded URL or error string
+==================================*)on urlEncode(str)	local str	try		return (do shell script "/bin/echo " &amp; quoted form of str &amp; " | perl -MURI::Escape -lne 'print uri_escape($_)'")	on error eMsg number eNum		error "Can't urlEncode: " &amp; eMsg number eNum	end tryend urlEncode</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Formulate a LaTex math equation</string>
+				<key>title</key>
+				<string>Generates a PNG from LaTexMath equation</string>
+				<key>type</key>
+				<integer>6</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>2D31F9B9-3944-47B6-90FB-C3D644CE048E</string>
+			<key>version</key>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -112,61 +262,6 @@ RETURNS: List of String  (List)
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>68</integer>
-				<key>keyword</key>
-				<string>tex</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>1</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Processing...</string>
-				<key>script</key>
-				<string>on run argv	-- enter new latex signs here	set theShortcuts to {"*|\\cdot", "--|\\over", "√|\\sqrt", "∑|\\sum", "alpha|\\alpha", "beta|\\beta"}		set theQuery to item 1 of argv		-- Load JSON encoder	set theJsonPath to POSIX file ((do shell script "pwd") &amp; "/json.scpt")	set json to load script theJsonPath as alias		set thePreviewURL to "https://latex.codecogs.com/png.latex?%5Cfn_jvn%20" &amp; urlEncode(theQuery)	set theCurl to "curl -go /tmp/tex.png " &amp; thePreviewURL	do shell script (theCurl)		set theItems to {}		set theItem to json's createDictWith({{"title", "Get/Preview PNG"}})	theItem's setkv("subtitle", "Generate Image or press SHIFT to Preview")	theItem's setkv("arg", "getPNG|" &amp; theQuery)	theItem's setkv("quicklookurl", "/tmp/tex.png")		set theIcon to json's createDictWith({{"type", "image"}})	theIcon's setkv("path", "edit.png")	theItem's setkv("icon", theIcon)		set end of theItems to theItem		repeat with i in theShortcuts				set {theKey, theValue} to StringSplit(i, "|")				set theItem to json's createDictWith({{"title", theKey}})		theItem's setkv("subtitle", theValue)		theItem's setkv("arg", theQuery &amp; " " &amp; theValue &amp; " ")		--		theItem's setkv("quicklookurl", "")				set theIcon to json's createDictWith({{"type", "image"}})		theIcon's setkv("path", "math.png")		theItem's setkv("icon", theIcon)				set end of theItems to theItem			end repeat		-- Create root items object and encode to JSON	set itemDict to json's createDict()	itemDict's setkv("items", theItems)		return json's encode(itemDict)	return theQueryend run(* ================================================================
-FUNTION: Splits a String with a given delimiter
-RETURNS: List of String  (List)
-==================================================================*)on StringSplit(theString, theDelimiter)	-- save delimiters to restore old settings	set oldDelimiters to AppleScript's text item delimiters	-- set delimiters to delimiter to be used	set AppleScript's text item delimiters to theDelimiter	-- create the array	set theArray to every text item of theString	-- restore the old setting	set AppleScript's text item delimiters to oldDelimiters	-- return the result	return theArrayend StringSplit(* ===============================
-Encode URL
-RETURNS: Encoded URL or error string
-==================================*)on urlEncode(str)	local str	try		return (do shell script "/bin/echo " &amp; quoted form of str &amp; " | perl -MURI::Escape -lne 'print uri_escape($_)'")	on error eMsg number eNum		error "Can't urlEncode: " &amp; eMsg number eNum	end tryend urlEncode</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Formulate a LaTex math equation</string>
-				<key>title</key>
-				<string>Generates a PNG from LaTexMath equation</string>
-				<key>type</key>
-				<integer>6</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>2D31F9B9-3944-47B6-90FB-C3D644CE048E</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>triggerid</key>
 				<string>.texnotify</string>
 			</dict>
@@ -180,6 +275,29 @@ RETURNS: Encoded URL or error string
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>python parseurl.py $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E081DB18-5F75-4657-BAC7-B8CB8DEEF8F0</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
@@ -187,14 +305,103 @@ RETURNS: Encoded URL or error string
 				<key>removeextension</key>
 				<false/>
 				<key>text</key>
-				<string>PNG was added to your Downloads folder and Formular was added to the Clipboard</string>
+				<string>{query}</string>
 				<key>title</key>
-				<string>LaTeX Math</string>
+				<string>URL Copied to the Clipboard</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>BB88A97F-0BE9-49EF-B597-CFB4835AAE8D</string>
+			<string>C9DB0A21-6CDC-498B-87B8-2BE216AEA1B3</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>A4B94DD4-7786-4BA2-AC7A-9496A111DF97</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>rtex</string>
+				<key>subtext</key>
+				<string>Extract math equation from encode URL</string>
+				<key>text</key>
+				<string>Reverse Latex URL</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>524C2F19-4633-4F38-AADD-2161D3E60D86</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Enter latex.codecogs.com URL with encoded math equation incl http</string>
+				<key>title</key>
+				<string>ERROR</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>76093E45-FE6D-4ABF-AF76-95A6EF4BB9A1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>^http</string>
+						<key>outputlabel</key>
+						<string>encoding</string>
+						<key>uid</key>
+						<string>D2F06D73-D9A7-4050-8291-8986FD86EE7C</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>error</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>B56FD831-799A-4446-BBC6-956BBB54AB84</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -297,16 +504,37 @@ fi</string>
 		<key>2D31F9B9-3944-47B6-90FB-C3D644CE048E</key>
 		<dict>
 			<key>xpos</key>
-			<integer>240</integer>
+			<integer>505</integer>
 			<key>ypos</key>
-			<integer>60</integer>
+			<integer>55</integer>
 		</dict>
 		<key>3AEB3F40-5C4B-4696-AAF7-979992CD7057</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>60</integer>
+			<integer>55</integer>
+		</dict>
+		<key>524C2F19-4633-4F38-AADD-2161D3E60D86</key>
+		<dict>
+			<key>xpos</key>
+			<integer>45</integer>
+			<key>ypos</key>
+			<integer>390</integer>
+		</dict>
+		<key>76093E45-FE6D-4ABF-AF76-95A6EF4BB9A1</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1120</integer>
+			<key>ypos</key>
+			<integer>405</integer>
+		</dict>
+		<key>A4B94DD4-7786-4BA2-AC7A-9496A111DF97</key>
+		<dict>
+			<key>xpos</key>
+			<integer>780</integer>
+			<key>ypos</key>
+			<integer>260</integer>
 		</dict>
 		<key>AEB09C58-77CD-4913-9704-34FB5EBC2A99</key>
 		<dict>
@@ -315,23 +543,37 @@ fi</string>
 			<key>note</key>
 			<string>OneUpdater</string>
 			<key>xpos</key>
-			<integer>450</integer>
+			<integer>780</integer>
 			<key>ypos</key>
-			<integer>320</integer>
+			<integer>570</integer>
+		</dict>
+		<key>B56FD831-799A-4446-BBC6-956BBB54AB84</key>
+		<dict>
+			<key>xpos</key>
+			<integer>195</integer>
+			<key>ypos</key>
+			<integer>410</integer>
 		</dict>
 		<key>B70962B1-1530-4F28-8B4F-D7DA7C01A6F4</key>
 		<dict>
 			<key>xpos</key>
-			<integer>660</integer>
+			<integer>925</integer>
 			<key>ypos</key>
-			<integer>60</integer>
+			<integer>55</integer>
 		</dict>
 		<key>BB88A97F-0BE9-49EF-B597-CFB4835AAE8D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>820</integer>
+			<integer>1120</integer>
 			<key>ypos</key>
-			<integer>60</integer>
+			<integer>55</integer>
+		</dict>
+		<key>C9DB0A21-6CDC-498B-87B8-2BE216AEA1B3</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1120</integer>
+			<key>ypos</key>
+			<integer>260</integer>
 		</dict>
 		<key>CF4B3A9C-0980-42E1-BBC2-88877835E5CA</key>
 		<dict>
@@ -341,15 +583,24 @@ fi</string>
 			<string>- Call external .tex in case new LaTeX symbol was added
 - Calls external trigger .gotex to save PNG</string>
 			<key>xpos</key>
-			<integer>450</integer>
+			<integer>775</integer>
 			<key>ypos</key>
-			<integer>60</integer>
+			<integer>55</integer>
+		</dict>
+		<key>E081DB18-5F75-4657-BAC7-B8CB8DEEF8F0</key>
+		<dict>
+			<key>note</key>
+			<string>Decode entered URL</string>
+			<key>xpos</key>
+			<integer>355</integer>
+			<key>ypos</key>
+			<integer>175</integer>
 		</dict>
 	</dict>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.6</string>
+	<string>1.7</string>
 	<key>webaddress</key>
 	<string>https://github.com/Acidham/latex-to-png</string>
 </dict>
